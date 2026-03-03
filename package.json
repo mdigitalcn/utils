@@ -1,0 +1,104 @@
+{
+  "name": "@mdigital/utils",
+  "version": "1.0.3",
+  "type": "module",
+  "description": "Functional programming utilities and React hooks for modern web development",
+  "main": "./dist/esm/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js"
+    },
+    "./array": {
+      "types": "./dist/types/array/index.d.ts",
+      "import": "./dist/esm/array/index.js"
+    },
+    "./object": {
+      "types": "./dist/types/object/index.d.ts",
+      "import": "./dist/esm/object/index.js"
+    },
+    "./function": {
+      "types": "./dist/types/function/index.d.ts",
+      "import": "./dist/esm/function/index.js"
+    },
+    "./predicate": {
+      "types": "./dist/types/predicate/index.d.ts",
+      "import": "./dist/esm/predicate/index.js"
+    },
+    "./promise": {
+      "types": "./dist/types/promise/index.d.ts",
+      "import": "./dist/esm/promise/index.js"
+    },
+    "./math": {
+      "types": "./dist/types/math/index.d.ts",
+      "import": "./dist/esm/math/index.js"
+    },
+    "./string": {
+      "types": "./dist/types/string/index.d.ts",
+      "import": "./dist/esm/string/index.js"
+    },
+    "./react": {
+      "types": "./dist/types/react/index.d.ts",
+      "import": "./dist/esm/react/index.js"
+    },
+    "./file": {
+      "types": "./dist/types/file/index.d.ts",
+      "import": "./dist/esm/file/index.js"
+    },
+    "./validation": {
+      "types": "./dist/types/validation/index.d.ts",
+      "import": "./dist/esm/validation/index.js"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "hooks",
+    "typescript",
+    "functional-programming",
+    "utilities",
+    "ramda",
+    "fp",
+    "composition",
+    "curry",
+    "immutable"
+  ],
+  "author": "Mr.Luke <dzhunusov.ulukbek@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=19.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^19.0.6",
+    "jsdom": "^28.1.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "rollup": "^4.31.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.7.3",
+    "vitest": "^4.0.18"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build"
+  },
+  "packageManager": "pnpm@10.18.2",
+  "publishConfig": {
+    "access": "public"
+  }
+}
