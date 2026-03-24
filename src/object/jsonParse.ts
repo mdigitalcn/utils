@@ -6,10 +6,11 @@
  *
  * @example
  * jsonParse('{"a": 1}')          // { a: 1 }
- * jsonParse('not json')          // ""
- * jsonParse('')                  // undefined
- * jsonParse('true')              // undefined
- * jsonParse('{"a": 1}', null)    // null
+ * jsonParse('not json')          // "" (fallback)
+ * jsonParse('')                  // "" (fallback)
+ * jsonParse(null)                // "" (fallback)
+ * jsonParse('true')              // true
+ * jsonParse('{"a": 1}', null)    // { a: 1 }
  * jsonParse('bad', [])           // []
  *
  * @param value - The string to parse.

@@ -3,23 +3,23 @@
  *
  * @example
  * const result = collectBy(
- *   (item) => item.type,
  *   [
  *     { type: 'breakfast', item: '☕️' },
  *     { type: 'lunch', item: '🌯' },
  *     { type: 'dinner', item: '🍝' },
  *     { type: 'breakfast', item: '🥐' },
  *     { type: 'lunch', item: '🍕' }
- *   ]
+ *   ],
+ *   (item) => item.type
  * );
  *
- * @param fn Function that extracts a key from each item
  * @param list Array of items
+ * @param fn Function that extracts a key from each item
  * @returns Array of groups, each group containing items with same key
  */
 export function collectBy<T, K extends string | number | symbol>(
-  fn: (item: T) => K,
-  list: T[]
+  list: T[],
+  fn: (item: T) => K
 ): T[][] {
   const groups: Record<K, T[]> = {} as Record<K, T[]>;
 
@@ -35,5 +35,3 @@ export function collectBy<T, K extends string | number | symbol>(
 
   return Object.values(groups);
 }
-
-export default collectBy;

@@ -3,12 +3,18 @@ import {
   chunk,
   compact,
   difference,
+  drop,
+  first,
+  flatten,
   intersection,
   keyBy,
+  last,
   shuffle,
   sortBy,
+  take,
   uniq,
   uniqBy,
+  zip,
   groupBy,
   partition,
   collectBy,
@@ -138,19 +144,19 @@ describe('uniq', () => {
 
 describe('uniqBy', () => {
   it('deduplicates by function', () => {
-    expect(uniqBy(x => x.id, [{ id: 1 }, { id: 1 }, { id: 2 }]))
+    expect(uniqBy([{ id: 1 }, { id: 1 }, { id: 2 }], x => x.id))
       .toEqual([{ id: 1 }, { id: 2 }]);
   });
 });
 
 describe('groupBy', () => {
   it('groups by function result', () => {
-    const result = groupBy((x: number) => x % 2 === 0 ? 'even' : 'odd', [1, 2, 3, 4]);
+    const result = groupBy([1, 2, 3, 4], (x) => x % 2 === 0 ? 'even' : 'odd');
     expect(result).toEqual({ odd: [1, 3], even: [2, 4] });
   });
-  it('curried form works', () => {
-    const byType = groupBy((x: { type: string }) => x.type);
-    expect(byType([{ type: 'a' }, { type: 'b' }, { type: 'a' }])).toEqual({
+  it('groups objects by property', () => {
+    const result = groupBy([{ type: 'a' }, { type: 'b' }, { type: 'a' }], x => x.type);
+    expect(result).toEqual({
       a: [{ type: 'a' }, { type: 'a' }],
       b: [{ type: 'b' }],
     });
@@ -159,27 +165,67 @@ describe('groupBy', () => {
 
 describe('partition', () => {
   it('splits by predicate', () => {
-    expect(partition((x: number) => x > 2, [1, 2, 3, 4])).toEqual([[3, 4], [1, 2]]);
+    expect(partition([1, 2, 3, 4], (x) => x > 2)).toEqual([[3, 4], [1, 2]]);
   });
   it('all pass', () => {
-    expect(partition((x: number) => x > 0, [1, 2, 3])).toEqual([[1, 2, 3], []]);
+    expect(partition([1, 2, 3], (x) => x > 0)).toEqual([[1, 2, 3], []]);
   });
   it('none pass', () => {
-    expect(partition((x: number) => x > 10, [1, 2, 3])).toEqual([[], [1, 2, 3]]);
+    expect(partition([1, 2, 3], (x) => x > 10)).toEqual([[], [1, 2, 3]]);
   });
 });
 
 describe('collectBy', () => {
   it('groups into sub-arrays', () => {
     const result = collectBy(
-      (x: { type: string }) => x.type,
-      [{ type: 'a', v: 1 }, { type: 'b', v: 2 }, { type: 'a', v: 3 }]
+      [{ type: 'a', v: 1 }, { type: 'b', v: 2 }, { type: 'a', v: 3 }],
+      (x) => x.type
     );
     expect(result).toEqual([
       [{ type: 'a', v: 1 }, { type: 'a', v: 3 }],
       [{ type: 'b', v: 2 }],
     ]);
   });
+});
+
+describe('first', () => {
+  it('returns first element', () => expect(first([1, 2, 3])).toBe(1));
+  it('returns undefined for empty', () => expect(first([])).toBeUndefined());
+});
+
+describe('last', () => {
+  it('returns last element', () => expect(last([1, 2, 3])).toBe(3));
+  it('returns undefined for empty', () => expect(last([])).toBeUndefined());
+});
+
+describe('take', () => {
+  it('takes first n', () => expect(take([1, 2, 3, 4, 5], 3)).toEqual([1, 2, 3]));
+  it('takes all if n > length', () => expect(take([1, 2], 5)).toEqual([1, 2]));
+  it('empty array', () => expect(take([], 3)).toEqual([]));
+  it('take 0', () => expect(take([1, 2, 3], 0)).toEqual([]));
+});
+
+describe('drop', () => {
+  it('drops first n', () => expect(drop([1, 2, 3, 4, 5], 2)).toEqual([3, 4, 5]));
+  it('drops all if n > length', () => expect(drop([1, 2], 5)).toEqual([]));
+  it('empty array', () => expect(drop([], 3)).toEqual([]));
+  it('drop 0', () => expect(drop([1, 2, 3], 0)).toEqual([1, 2, 3]));
+});
+
+describe('flatten', () => {
+  it('flattens one level', () => expect(flatten([[1, 2], [3, 4], [5]])).toEqual([1, 2, 3, 4, 5]));
+  it('empty', () => expect(flatten([])).toEqual([]));
+  it('already flat', () => expect(flatten([1, 2, 3])).toEqual([1, 2, 3]));
+});
+
+describe('zip', () => {
+  it('zips equal length', () => {
+    expect(zip([1, 2, 3], ['a', 'b', 'c'])).toEqual([[1, 'a'], [2, 'b'], [3, 'c']]);
+  });
+  it('zips unequal length (shorter wins)', () => {
+    expect(zip([1, 2], ['a'])).toEqual([[1, 'a']]);
+  });
+  it('empty arrays', () => expect(zip([], [])).toEqual([]));
 });
 
 describe('checkValueInArray', () => {

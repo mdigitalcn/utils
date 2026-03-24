@@ -1,36 +1,22 @@
 /**
  * Groups array elements by the result of a function.
- * Curried for composition (Ramda-style).
  *
  * @example
- * groupBy(x => x % 2 === 0 ? 'even' : 'odd', [1, 2, 3, 4])
+ * groupBy([1, 2, 3, 4], x => x % 2 === 0 ? 'even' : 'odd')
  * // { odd: [1, 3], even: [2, 4] }
  *
  * @example
- * // Curried usage
- * const groupByType = groupBy((x: { type: string }) => x.type)
- * groupByType([{ type: 'a' }, { type: 'b' }, { type: 'a' }])
+ * groupBy([{ type: 'a' }, { type: 'b' }, { type: 'a' }], x => x.type)
  * // { a: [{ type: 'a' }, { type: 'a' }], b: [{ type: 'b' }] }
  *
+ * @param list - Array to group
  * @param fn - Function to determine group key
- * @param list - Array to group (optional for currying)
- * @returns Object with grouped arrays, or curried function
+ * @returns Object with grouped arrays
  */
 export function groupBy<T>(
+  list: T[],
   fn: (item: T) => string
-): (list: T[]) => Record<string, T[]>;
-export function groupBy<T>(
-  fn: (item: T) => string,
-  list: T[]
-): Record<string, T[]>;
-export function groupBy<T>(
-  fn: (item: T) => string,
-  list?: T[]
-): Record<string, T[]> | ((list: T[]) => Record<string, T[]>) {
-  if (list === undefined) {
-    return (list: T[]) => groupBy(fn, list);
-  }
-
+): Record<string, T[]> {
   return list.reduce(
     (acc, item) => {
       const key = fn(item);

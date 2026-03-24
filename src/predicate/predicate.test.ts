@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isNil, isNotNil, isString, isNumber, isPlainObject, isEqual } from './index';
+import { isNil, isNotNil, isString, isNumber, isBoolean, isArray, isFunction, isDate, isPlainObject, isEqual } from './index';
 
 describe('isNil', () => {
   it('null is nil', () => expect(isNil(null)).toBe(true));
@@ -40,6 +40,40 @@ describe('isNumber', () => {
   it('-Infinity is not a number', () => expect(isNumber(-Infinity)).toBe(false));
   it('string', () => expect(isNumber('42')).toBe(false));
   it('null', () => expect(isNumber(null)).toBe(false));
+});
+
+describe('isBoolean', () => {
+  it('true', () => expect(isBoolean(true)).toBe(true));
+  it('false', () => expect(isBoolean(false)).toBe(true));
+  it('number', () => expect(isBoolean(0)).toBe(false));
+  it('string', () => expect(isBoolean('true')).toBe(false));
+  it('null', () => expect(isBoolean(null)).toBe(false));
+});
+
+describe('isArray', () => {
+  it('array', () => expect(isArray([1, 2])).toBe(true));
+  it('empty array', () => expect(isArray([])).toBe(true));
+  it('string', () => expect(isArray('hello')).toBe(false));
+  it('object with length', () => expect(isArray({ length: 0 })).toBe(false));
+  it('null', () => expect(isArray(null)).toBe(false));
+});
+
+describe('isFunction', () => {
+  it('arrow function', () => expect(isFunction(() => {})).toBe(true));
+  it('named function', () => expect(isFunction(Math.round)).toBe(true));
+  it('class', () => expect(isFunction(class {})).toBe(true));
+  it('string', () => expect(isFunction('hello')).toBe(false));
+  it('object', () => expect(isFunction({})).toBe(false));
+  it('null', () => expect(isFunction(null)).toBe(false));
+});
+
+describe('isDate', () => {
+  it('valid date', () => expect(isDate(new Date())).toBe(true));
+  it('specific date', () => expect(isDate(new Date('2024-01-01'))).toBe(true));
+  it('invalid date', () => expect(isDate(new Date('invalid'))).toBe(false));
+  it('string', () => expect(isDate('2024-01-01')).toBe(false));
+  it('number (timestamp)', () => expect(isDate(Date.now())).toBe(false));
+  it('null', () => expect(isDate(null)).toBe(false));
 });
 
 describe('isPlainObject', () => {
@@ -129,4 +163,20 @@ describe('isEqual', () => {
   // Cross-type
   it('object vs array', () => expect(isEqual({}, [])).toBe(false));
   it('string vs number', () => expect(isEqual('1' as any, 1)).toBe(false));
+
+  // Deep Set comparison
+  it('Sets with equal objects', () => {
+    expect(isEqual(new Set([{ a: 1 }]), new Set([{ a: 1 }]))).toBe(true);
+  });
+  it('Sets with different objects', () => {
+    expect(isEqual(new Set([{ a: 1 }]), new Set([{ a: 2 }]))).toBe(false);
+  });
+
+  // Edge cases
+  it('NaN equals NaN (via Object.is)', () => {
+    expect(isEqual(NaN, NaN)).toBe(true);
+  });
+  it('+0 vs -0', () => {
+    expect(isEqual(+0, -0)).toBe(false); // Object.is distinguishes
+  });
 });

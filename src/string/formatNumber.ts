@@ -1,5 +1,3 @@
-"use client";
-
 /**
  * Formats a number or numeric string by adding thousands separators
  * according to the specified locale.

@@ -3,15 +3,15 @@
  * Optimized: Only copies keys that aren't omitted (O(n) where n = kept keys, not all keys).
  *
  * @example
- * omit(['b'], { a: 1, b: 2, c: 3 }) // { a: 1, c: 3 }
+ * omit({ a: 1, b: 2, c: 3 }, ['b']) // { a: 1, c: 3 }
  *
- * @param keys - Keys to omit
  * @param obj - Source object
+ * @param keys - Keys to omit
  * @returns New object without omitted keys
  */
 export function omit<T extends object, K extends keyof T>(
-  keys: K[],
-  obj: T
+  obj: T,
+  keys: K[]
 ): Omit<T, K> {
   const keysToOmit = new Set(keys);
   const result = {} as any;

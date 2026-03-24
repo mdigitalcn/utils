@@ -7,11 +7,14 @@ import {
   mergeDeep,
   cloneDeep,
   get,
+  set,
+  has,
   path,
   pathOr,
   prop,
   propOr,
   getTrues,
+  invert,
   jsonParse,
   mapKeys,
   mapValues,
@@ -20,10 +23,10 @@ import {
 
 describe('pick', () => {
   it('picks specified keys', () => {
-    expect(pick(['a', 'c'], { a: 1, b: 2, c: 3 })).toEqual({ a: 1, c: 3 });
+    expect(pick({ a: 1, b: 2, c: 3 }, ['a', 'c'])).toEqual({ a: 1, c: 3 });
   });
   it('ignores missing keys', () => {
-    expect(pick(['a', 'z'] as any, { a: 1, b: 2 })).toEqual({ a: 1 });
+    expect(pick({ a: 1, b: 2 }, ['a', 'z'] as any)).toEqual({ a: 1 });
   });
 });
 
@@ -39,7 +42,7 @@ describe('pickBy', () => {
 
 describe('omit', () => {
   it('omits specified keys', () => {
-    expect(omit(['b'], { a: 1, b: 2, c: 3 })).toEqual({ a: 1, c: 3 });
+    expect(omit({ a: 1, b: 2, c: 3 }, ['b'])).toEqual({ a: 1, c: 3 });
   });
 });
 
@@ -132,21 +135,72 @@ describe('get', () => {
   });
 });
 
+describe('set', () => {
+  it('sets nested value', () => {
+    expect(set({}, 'a.b.c', 42)).toEqual({ a: { b: { c: 42 } } });
+  });
+  it('overwrites existing value', () => {
+    expect(set({ a: { b: 1 } }, 'a.b', 2)).toEqual({ a: { b: 2 } });
+  });
+  it('works with array path', () => {
+    expect(set({ x: 1 }, ['a', 'b'], 3)).toEqual({ x: 1, a: { b: 3 } });
+  });
+  it('does not mutate original', () => {
+    const obj = { a: { b: 1 } };
+    const result = set(obj, 'a.b', 2);
+    expect(obj.a.b).toBe(1);
+    expect(result.a.b).toBe(2);
+  });
+});
+
+describe('has', () => {
+  it('finds existing path', () => {
+    expect(has({ a: { b: { c: 1 } } }, 'a.b.c')).toBe(true);
+  });
+  it('returns false for missing path', () => {
+    expect(has({ a: { b: 1 } }, 'a.c')).toBe(false);
+  });
+  it('true for undefined value (key exists)', () => {
+    expect(has({ a: { b: undefined } }, 'a.b')).toBe(true);
+  });
+  it('false for null obj', () => {
+    expect(has(null, 'a')).toBe(false);
+  });
+  it('works with array path', () => {
+    expect(has({ a: { b: 1 } }, ['a', 'b'])).toBe(true);
+  });
+});
+
+describe('invert', () => {
+  it('swaps keys and values', () => {
+    expect(invert({ a: '1', b: '2' })).toEqual({ '1': 'a', '2': 'b' });
+  });
+  it('handles number values', () => {
+    expect(invert({ x: 1, y: 2 })).toEqual({ '1': 'x', '2': 'y' });
+  });
+  it('last key wins on duplicate values', () => {
+    expect(invert({ a: '1', b: '1' })).toEqual({ '1': 'b' });
+  });
+  it('empty object', () => {
+    expect(invert({} as Record<string, string>)).toEqual({});
+  });
+});
+
 describe('path', () => {
   it('accesses nested path', () => {
-    expect(path(['a', 'b'], { a: { b: 1 } })).toBe(1);
+    expect(path({ a: { b: 1 } }, ['a', 'b'])).toBe(1);
   });
   it('returns undefined for missing', () => {
-    expect(path(['a', 'c'], { a: { b: 1 } })).toBeUndefined();
+    expect(path({ a: { b: 1 } }, ['a', 'c'])).toBeUndefined();
   });
 });
 
 describe('pathOr', () => {
   it('returns value at path', () => {
-    expect(pathOr('default', ['a', 'b'], { a: { b: 1 } })).toBe(1);
+    expect(pathOr('default', { a: { b: 1 } }, ['a', 'b'])).toBe(1);
   });
   it('returns default for missing', () => {
-    expect(pathOr('default', ['a', 'c'], { a: { b: 1 } })).toBe('default');
+    expect(pathOr('default', { a: { b: 1 } }, ['a', 'c'])).toBe('default');
   });
 });
 
@@ -166,7 +220,8 @@ describe('propOr', () => {
   });
   it('returns default when missing', () => {
     const getNameOrUnknown = propOr('Unknown', 'name');
-    expect(getNameOrUnknown({})).toBe('Unknown');
+    expect(getNameOrUnknown({ name: undefined })).toBe('Unknown');
+    expect(getNameOrUnknown({ other: 'val' } as any)).toBe('Unknown');
   });
   it('returns default for undefined value', () => {
     expect(propOr('default', 'x', { x: undefined })).toBe('default');

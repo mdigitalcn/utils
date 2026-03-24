@@ -16,13 +16,13 @@
  * @template T - The type of objects in the array
  * @param {T[]} array - Array of objects to check
  * @param {keyof T} key - Key to check in each object
- * @param {string} value - Value to compare against
+ * @param {T[keyof T]} value - Value to compare against
  * @returns {boolean} `true` if at least one object has the key with the given value, otherwise `false`
  */
 export function checkValueInArray<T>(
   array: T[],
   key: keyof T,
-  value: string
+  value: T[keyof T]
 ): boolean {
   for (const obj of array) {
     if (Object.prototype.hasOwnProperty.call(obj, key) && obj[key] === value) {

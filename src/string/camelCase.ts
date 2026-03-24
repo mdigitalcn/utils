@@ -1,3 +1,5 @@
+import { words } from './words.js';
+
 /**
  * Converts a string to camelCase.
  * Handles spaces, hyphens, underscores, and mixed casing.
@@ -13,16 +15,10 @@
  * @returns camelCase string
  */
 export function camelCase(str: string): string {
-  if (!str) return '';
+  const w = words(str);
+  if (w.length === 0) return '';
 
-  const words = str
-    .replace(/[^a-zA-Z0-9]+/g, ' ')
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .trim()
-    .toLowerCase()
-    .split(/\s+/);
-
-  return words
+  return w
     .map((word, i) =>
       i === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)
     )

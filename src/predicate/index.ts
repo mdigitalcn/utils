@@ -5,5 +5,9 @@
 export { isNil, isNotNil } from './isNil.js';
 export { isString } from './isString.js';
 export { isNumber } from './isNumber.js';
+export { isBoolean } from './isBoolean.js';
+export { isArray } from './isArray.js';
+export { isFunction } from './isFunction.js';
+export { isDate } from './isDate.js';
 export { isPlainObject } from './isPlainObject.js';
 export { isEqual } from './isEqual.js';

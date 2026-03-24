@@ -42,11 +42,13 @@ export function isEqual(a: unknown, b: unknown): boolean {
     return true;
   }
 
-  // Set comparison
+  // Set comparison (deep equality for members)
   if (a instanceof Set && b instanceof Set) {
     if (a.size !== b.size) return false;
+    const bArr = Array.from(b);
     for (const val of a) {
-      if (!b.has(val)) return false;
+      const found = bArr.some((bVal) => isEqual(val, bVal));
+      if (!found) return false;
     }
     return true;
   }

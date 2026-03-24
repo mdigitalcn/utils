@@ -255,6 +255,17 @@ describe('convertToFormData', () => {
     expect(fd.get('b')).toBeNull();
     expect(fd.get('c')).toBeNull();
   });
+  it('handles File arrays', () => {
+    const file1 = new File(['a'], 'a.txt', { type: 'text/plain' });
+    const file2 = new File(['b'], 'b.txt', { type: 'text/plain' });
+    const fd = convertToFormData({ files: [file1, file2] });
+    expect(fd.getAll('files')).toHaveLength(2);
+  });
+  it('handles single File', () => {
+    const file = new File(['content'], 'test.txt', { type: 'text/plain' });
+    const fd = convertToFormData({ doc: file });
+    expect(fd.get('doc')).toBeInstanceOf(File);
+  });
 });
 
 describe('createQueryString', () => {

@@ -4,6 +4,7 @@ import {
   camelCase,
   kebabCase,
   snakeCase,
+  words,
   escapeHtml,
   formatNumber,
   truncateString,
@@ -46,6 +47,15 @@ describe('snakeCase', () => {
   it('from spaces', () => expect(snakeCase('Some String Here')).toBe('some_string_here'));
   it('from PascalCase', () => expect(snakeCase('PascalCase')).toBe('pascal_case'));
   it('empty', () => expect(snakeCase('')).toBe(''));
+});
+
+describe('words', () => {
+  it('splits camelCase', () => expect(words('helloWorld')).toEqual(['hello', 'world']));
+  it('splits hyphens', () => expect(words('foo-bar-baz')).toEqual(['foo', 'bar', 'baz']));
+  it('splits underscores', () => expect(words('FOO_BAR')).toEqual(['foo', 'bar']));
+  it('splits PascalCase', () => expect(words('PascalCase')).toEqual(['pascal', 'case']));
+  it('handles mixed', () => expect(words('some-Mixed_string')).toEqual(['some', 'mixed', 'string']));
+  it('empty returns empty array', () => expect(words('')).toEqual([]));
 });
 
 describe('escapeHtml', () => {

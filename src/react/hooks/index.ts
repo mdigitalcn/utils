@@ -5,15 +5,17 @@
  * All hooks follow React 19 best practices and include TypeScript support.
  */
 
-export { useDebounce } from "./useDebounce";
-export { useThrottle } from "./useThrottle";
-export { useLocalStorage } from "./useLocalStorage";
-export { useSessionStorage } from "./useSessionStorage";
-export { usePrevious } from "./usePrevious";
-export { useToggle } from "./useToggle";
-export { useClickOutside } from "./useClickOutside";
-export { useMediaQuery } from "./useMediaQuery";
-export { useIntersectionObserver } from "./useIntersectionObserver";
-export { useMountEffect } from "./useMountEffect";
-export { useUpdateEffect } from "./useUpdateEffect";
-export { useScreenSize } from "./useScreenSize";
+export { useDebounce } from './useDebounce.js';
+export { useThrottle } from './useThrottle.js';
+export { useLocalStorage } from './useLocalStorage.js';
+export { useSessionStorage } from './useSessionStorage.js';
+export { usePrevious } from './usePrevious.js';
+export { useToggle } from './useToggle.js';
+export { useClickOutside } from './useClickOutside.js';
+export { useMediaQuery } from './useMediaQuery.js';
+export { useIntersectionObserver } from './useIntersectionObserver.js';
+export { useMountEffect } from './useMountEffect.js';
+export { useUpdateEffect } from './useUpdateEffect.js';
+export { useScreenSize } from './useScreenSize.js';
+export { useIsMounted } from './useIsMounted.js';
+export { useCopyToClipboard } from './useCopyToClipboard.js';

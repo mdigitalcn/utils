@@ -1,5 +1,5 @@
-export { anyToString } from "./anyToString";
-export { downloadFile } from "./downloadFile";
-export { getBase64 } from "./getBase64";
-export { isFileArray } from "./isFileArray";
-export { decodeURIValue } from "./decodeURIValue";
+export { anyToString } from './anyToString.js';
+export { downloadFile } from './downloadFile.js';
+export { getBase64 } from './getBase64.js';
+export { isFileArray } from './isFileArray.js';
+export { decodeURIValue } from './decodeURIValue.js';

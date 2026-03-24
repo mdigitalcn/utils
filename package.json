@@ -1,5 +1,5 @@
 {
-  "name": "@mdigital/utils",
+  "name": "@fmlj/utils",
   "version": "1.0.3",
   "type": "module",
   "description": "Functional programming utilities and React hooks for modern web development",
@@ -72,6 +72,11 @@
   "license": "MIT",
   "peerDependencies": {
     "react": ">=19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.2",

@@ -1,3 +1,5 @@
+import { words } from './words.js';
+
 /**
  * Converts a string to snake_case.
  * Handles spaces, hyphens, camelCase, and PascalCase.
@@ -13,14 +15,5 @@
  * @returns snake_case string
  */
 export function snakeCase(str: string): string {
-  if (!str) return '';
-
-  return str
-    .replace(/[^a-zA-Z0-9]+/g, ' ')
-    .replace(/([a-z])([A-Z])/g, '$1 $2')
-    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
-    .trim()
-    .toLowerCase()
-    .split(/\s+/)
-    .join('_');
+  return words(str).join('_');
 }

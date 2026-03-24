@@ -13,6 +13,8 @@
  * @param arr - Array to compact
  * @returns New array without falsy values
  */
-export function compact<T>(arr: readonly (T | null | undefined | false | 0 | '')[]): T[] {
-  return arr.filter(Boolean) as T[];
+type Falsy = false | null | undefined | 0 | '' | 0n;
+
+export function compact<T>(arr: readonly (T | Falsy)[]): Exclude<T, Falsy>[] {
+  return arr.filter(Boolean) as Exclude<T, Falsy>[];
 }

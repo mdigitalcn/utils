@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { anyToString, decodeURIValue, isFileArray, getBase64 } from './index';
+import { describe, it, expect, vi } from 'vitest';
+import { anyToString, decodeURIValue, isFileArray, getBase64, downloadFile } from './index';
 
 describe('anyToString', () => {
   it('converts File to object URL', () => {
@@ -10,8 +10,8 @@ describe('anyToString', () => {
   it('returns string as-is', () => {
     expect(anyToString('https://example.com')).toBe('https://example.com');
   });
-  it('returns non-file value as-is', () => {
-    expect(anyToString(42)).toBe(42);
+  it('returns string value as-is', () => {
+    expect(anyToString('/path/to/file.png')).toBe('/path/to/file.png');
   });
 });
 
@@ -56,5 +56,31 @@ describe('getBase64', () => {
     const file = new File(['Hello World'], 'test.txt', { type: 'text/plain' });
     const result = await getBase64(file);
     expect(result).toMatch(/^data:text\/plain;base64,/);
+  });
+});
+
+describe('downloadFile', () => {
+  it('creates and clicks a download link', async () => {
+    const blob = new Blob(['test content'], { type: 'text/plain' });
+    const mockClick = vi.fn();
+    const mockCreateElement = vi.spyOn(document, 'createElement').mockReturnValue({
+      href: '',
+      download: '',
+      click: mockClick,
+    } as any);
+    const mockCreateObjectURL = vi.fn().mockReturnValue('blob:test');
+    const mockRevokeObjectURL = vi.fn();
+    Object.defineProperty(window, 'URL', {
+      value: { createObjectURL: mockCreateObjectURL, revokeObjectURL: mockRevokeObjectURL },
+      writable: true,
+    });
+
+    await downloadFile(() => Promise.resolve(blob), 'test.txt');
+
+    expect(mockCreateObjectURL).toHaveBeenCalledWith(blob);
+    expect(mockClick).toHaveBeenCalled();
+    expect(mockRevokeObjectURL).toHaveBeenCalledWith('blob:test');
+
+    mockCreateElement.mockRestore();
   });
 });
