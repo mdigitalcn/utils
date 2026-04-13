@@ -69,7 +69,6 @@
     "immutable"
   ],
   "author": "Mr.Luke <dzhunusov.ulukbek@gmail.com>",
-  "license": "MIT",
   "peerDependencies": {
     "react": ">=19.0.0"
   },
@@ -102,8 +101,13 @@
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm run build"
   },
-  "packageManager": "pnpm@10.18.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdigitalcn/uikit.git"
+  },
+  "license": "MIT",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   }
 }
