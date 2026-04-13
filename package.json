@@ -1,6 +1,6 @@
 {
   "name": "@mdigitalcn/utils",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "type": "module",
   "description": "Production-grade TypeScript utilities — universal JS, works everywhere. Optional React hooks via subpath import.",
   "main": "./dist/esm/index.js",
