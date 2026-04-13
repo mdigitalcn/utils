@@ -1,4 +1,4 @@
-# @fmlj/utils Revision Plan v2
+# @mdigitalcn/utils Revision Plan v2
 
 ## Requirements Summary
 

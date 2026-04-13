@@ -11,6 +11,8 @@ export { path } from './path.js';
 export { pathOr } from './pathOr.js';
 export { prop } from './prop.js';
 export { propOr } from './propOr.js';
+export { findKey } from './findKey.js';
+export { flattenObject } from './flattenObject.js';
 export { getTrues } from './getTrue.js';
 export { invert } from './invert.js';
 export { jsonParse } from './jsonParse.js';

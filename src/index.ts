@@ -1,38 +1,39 @@
 /**
- * @md/utils
+ * @mdigitalcn/utils
  *
- * Production-grade TypeScript utilities and React hooks
+ * Production-grade TypeScript utilities — universal JS, works everywhere.
+ *
+ * React hooks are available via subpath import: `@mdigitalcn/utils/react`
+ * Browser-only file utils via: `@mdigitalcn/utils/file`
+ * Browser-only validation via: `@mdigitalcn/utils/validation`
  */
 
-// Core types
+// Core types — universal
 export * from './types/index.js';
 
-// Array utilities
+// Array utilities — universal
 export * from './array/index.js';
 
-// Object utilities
+// Object utilities — universal
 export * from './object/index.js';
 
-// Function utilities
+// Function utilities — universal
 export * from './function/index.js';
 
-// Math utilities
+// Math utilities — universal
 export * from './math/index.js';
 
-// String utilities
+// String utilities — universal
 export * from './string/index.js';
 
-// Predicate type guards
+// Predicate type guards — universal
 export * from './predicate/index.js';
 
-// Promise utilities
+// Promise utilities — universal
 export * from './promise/index.js';
 
-// File utilities
-export * from './file/index.js';
-
-// Validation utilities
-export * from './validation/index.js';
-
-// React hooks & utilities
-export * from './react/index.js';
+// NOTE: file/, validation/, react/ are NOT re-exported here.
+// They require browser/React APIs and must be imported via subpath:
+//   import { downloadFile } from '@mdigitalcn/utils/file'
+//   import { validateFileSize } from '@mdigitalcn/utils/validation'
+//   import { useDebounce } from '@mdigitalcn/utils/react'

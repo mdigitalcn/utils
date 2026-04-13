@@ -25,3 +25,9 @@ npm-debug.log*
 # Cache
 .turbo/
 .cache/
+
+# Coverage
+coverage/
+
+# Pack artifacts
+*.tgz

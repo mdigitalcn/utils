@@ -1,8 +1,8 @@
 {
-  "name": "@fmlj/utils",
-  "version": "1.0.3",
+  "name": "@mdigitalcn/utils",
+  "version": "2.0.0",
   "type": "module",
-  "description": "Functional programming utilities and React hooks for modern web development",
+  "description": "Production-grade TypeScript utilities — universal JS, works everywhere. Optional React hooks via subpath import.",
   "main": "./dist/esm/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",

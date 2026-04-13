@@ -1,4 +1,4 @@
-# @fmlj/utils
+# @mdigitalcn/utils
 
 Production-grade TypeScript utilities and React hooks. Zero dependencies (except optional React peer).
 
@@ -7,28 +7,28 @@ Tree-shakeable, ESM-only, with full type inference.
 ## Install
 
 ```bash
-pnpm add @fmlj/utils
+pnpm add @mdigitalcn/utils
 # or
-npm install @fmlj/utils
+npm install @mdigitalcn/utils
 ```
 
 ## Usage
 
 ```ts
 // Import everything
-import { pipe, pick, isNil, chunk } from '@fmlj/utils';
+import { pipe, pick, isNil, chunk } from '@mdigitalcn/utils';
 
 // Or use subpath imports for smaller bundles
-import { chunk, groupBy, zip } from '@fmlj/utils/array';
-import { pick, omit, set, get } from '@fmlj/utils/object';
-import { pipe, compose, debounce } from '@fmlj/utils/function';
-import { isNil, isEqual, isDate } from '@fmlj/utils/predicate';
-import { clamp, range, sum } from '@fmlj/utils/math';
-import { camelCase, kebabCase, words } from '@fmlj/utils/string';
-import { retry, timeout, delay } from '@fmlj/utils/promise';
-import { useDebounce, useToggle } from '@fmlj/utils/react';
-import { downloadFile, getBase64 } from '@fmlj/utils/file';
-import { validateFileSize } from '@fmlj/utils/validation';
+import { chunk, groupBy, zip } from '@mdigitalcn/utils/array';
+import { pick, omit, set, get } from '@mdigitalcn/utils/object';
+import { pipe, compose, debounce } from '@mdigitalcn/utils/function';
+import { isNil, isEqual, isDate } from '@mdigitalcn/utils/predicate';
+import { clamp, range, sum } from '@mdigitalcn/utils/math';
+import { camelCase, kebabCase, words } from '@mdigitalcn/utils/string';
+import { retry, timeout, delay } from '@mdigitalcn/utils/promise';
+import { useDebounce, useToggle } from '@mdigitalcn/utils/react';
+import { downloadFile, getBase64 } from '@mdigitalcn/utils/file';
+import { validateFileSize } from '@mdigitalcn/utils/validation';
 ```
 
 ## API Overview
@@ -210,7 +210,7 @@ import type {
   Nullish,
   RequireKeys,
   OptionalKeys,
-} from '@fmlj/utils';
+} from '@mdigitalcn/utils';
 ```
 
 ## Convention

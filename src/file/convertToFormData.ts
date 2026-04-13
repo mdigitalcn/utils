@@ -1,8 +1,10 @@
-import { isFileArray } from "../file";
+import { isFileArray } from './isFileArray.js';
 
 /**
  * Converts a plain object to FormData.
  * Supports string, number, boolean, File, Blob, or arrays of File/Blob.
+ *
+ * NOTE: Browser-only — requires FormData, File, Blob APIs.
  *
  * @example
  * const data = {

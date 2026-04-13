@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { anyToString, decodeURIValue, isFileArray, getBase64, downloadFile } from './index';
+import { anyToString, convertToFormData, decodeURIValue, isFileArray, getBase64, downloadFile } from './index';
 
 describe('anyToString', () => {
   it('converts File to object URL', () => {
@@ -12,6 +12,31 @@ describe('anyToString', () => {
   });
   it('returns string value as-is', () => {
     expect(anyToString('/path/to/file.png')).toBe('/path/to/file.png');
+  });
+});
+
+describe('convertToFormData', () => {
+  it('converts object to FormData', () => {
+    const fd = convertToFormData({ name: 'John', age: 30 });
+    expect(fd.get('name')).toBe('John');
+    expect(fd.get('age')).toBe('30');
+  });
+  it('skips null and undefined', () => {
+    const fd = convertToFormData({ a: 'value', b: null, c: undefined });
+    expect(fd.get('a')).toBe('value');
+    expect(fd.get('b')).toBeNull();
+    expect(fd.get('c')).toBeNull();
+  });
+  it('handles File arrays', () => {
+    const file1 = new File(['a'], 'a.txt', { type: 'text/plain' });
+    const file2 = new File(['b'], 'b.txt', { type: 'text/plain' });
+    const fd = convertToFormData({ files: [file1, file2] });
+    expect(fd.getAll('files')).toHaveLength(2);
+  });
+  it('handles single File', () => {
+    const file = new File(['content'], 'test.txt', { type: 'text/plain' });
+    const fd = convertToFormData({ doc: file });
+    expect(fd.get('doc')).toBeInstanceOf(File);
   });
 });
 
@@ -30,15 +55,11 @@ describe('decodeURIValue', () => {
 
 describe('isFileArray', () => {
   it('true for File array', () => {
-    const files = [
-      new File(['a'], 'a.txt'),
-      new File(['b'], 'b.txt'),
-    ];
+    const files = [new File(['a'], 'a.txt'), new File(['b'], 'b.txt')];
     expect(isFileArray(files)).toBe(true);
   });
   it('true for Blob array', () => {
-    const blobs = [new Blob(['a']), new Blob(['b'])];
-    expect(isFileArray(blobs)).toBe(true);
+    expect(isFileArray([new Blob(['a']), new Blob(['b'])])).toBe(true);
   });
   it('false for non-array', () => {
     expect(isFileArray('not an array')).toBe(false);
